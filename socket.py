@@ -32,4 +32,4 @@ def printServerData(host, port):
     for i in range(len(data)):    
         print(data[i])
 
-printServerData('mcbeBuild.p-e.kr', 19132)
+printServerData('ip', 19132)
