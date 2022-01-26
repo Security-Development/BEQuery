@@ -13,16 +13,18 @@ def printServerData(host, port):
 
     socket.settimeout(timeout)
 
-    dump = b'\xFE\xFD\x09'+struct.pack("L", randint(1, 999))
+    dump = b'\xFE\xFD\x09\x10\x20\x30\x40\xFF\xFF\xFF\x01'
 
     # handshake
     socket.sendto(dump, (host, port))
 
-    token = socket.recv(2048)[5: -1].decode()
+    token = socket.recv(2048)[5:-1].decode()
+    print(token)
 
     payload = b'\x00' * 4
 
-    request = b'\xFE\xFD\x00'+struct.pack(">L", randint(1, 999)) + struct.pack('>L', int(token)) + payload
+    request = b'\xFE\xFD\x00'+struct.pack(">L", randint(1, 999)) + struct.pack('>l', int(token)) + payload
+    print(request)
 
     socket.sendto(request, (host, port))
 
@@ -31,5 +33,3 @@ def printServerData(host, port):
     data = status.split('\\x00')
     for i in range(len(data)):    
         print(data[i])
-
-printServerData('ip', 19132)
