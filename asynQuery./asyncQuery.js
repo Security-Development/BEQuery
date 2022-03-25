@@ -1,4 +1,5 @@
 const dgram = require("dgram");
+const crypto = require('crypto');
 const EventEmitter = require('events');
 
 // 클래스 화 및 비동기 처리 하기
@@ -29,7 +30,7 @@ class Query {
                 var token = await this.getToken();
                 query.writeUInt16BE(0xFEFD, 0); 
                 query.writeUInt8(0, 2); 
-                query.writeInt32BE(55, 3); 
+                query.writeInt32BE(crypto.randomBytes(2), 3); 
                 query.writeInt32BE(token, 7);
                 query.writeInt32BE(0x00, 11);
 
